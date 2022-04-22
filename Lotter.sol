@@ -9,6 +9,7 @@ contract Lottery{
 
     constructor(){
         manager = msg.sender;
+        players.push(payable(manager));
     }
 
     function getBalance() public view returns(uint){
@@ -18,7 +19,7 @@ contract Lottery{
 
     receive() external payable{
         require(msg.value == 0.1 ether);
-        require(manager != mas.sender, "Manager cannot participate in lottery");
+        require(manager != msg.sender, "Manager cannot participate in lottery");
         players.push(payable(msg.sender));
     }
 
@@ -34,6 +35,7 @@ contract Lottery{
         winner.transfer(getBalance());
         // Reset the lottery
         players = new address payable[](0);
+        players.push(payable(manager));
     }
 
 }
